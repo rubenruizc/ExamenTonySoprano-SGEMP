@@ -1,0 +1,105 @@
+TONY SOPRANO
+
+----------------------------
+ENT
+	clsMision:
+
+		- int: id {get;set;}
+
+		- string: nombre {get;set;}
+
+		- int: dificultad {get;set;}
+
+		public clsMision() {}
+
+		public clsMision (int: id,string: nombre,int: dificultad){}
+
+
+	clsCandidatos:
+
+		- int: id {get;set;}
+
+		- string: nombre {get;set;}
+
+		- string: apellidos {get;set;}
+
+		- string: direccion {get;set;}
+
+		- string: pais {get;set;}
+
+		- int: telefono {get;set;}
+
+		- Datetime: fechaNac {get;set;}
+
+		- int: precio {get;set;}
+
+		public clsCandidatos(){}
+
+		public clsCandidatos(int:id,string: nombre,string: apellidos,string: direccion,string: pais,int: telefono,Datetime: fechaNac,int: precio){}
+
+----------------------------
+DAL
+	clsListadoDAL:
+
+		private static List<clsMision> misiones
+
+		private static List<clsCandidatos> candidatos
+
+
+		public static List<clsMision> obtenerMisiones() { return misiones }
+
+		public static clsMision buscarMisionPorId(id: int) {}
+
+		public static List<clsCandidatos> obtenerCandidatos() { return candidatos }
+
+		public static clsCandidatos buscarCandidatoPorId(id: int) {}
+
+
+----------------------------
+BL
+	clsListadoBL:
+
+		public static List<clsMision> obtenerMisiones() { return misiones }
+
+		public static clsMision buscarMisionPorId(id: int) {}
+
+		public static List<clsCandidatos> obtenerCandidatos() { return candidatos }
+
+		public static clsCandidatos buscarCandidatoPorId(id: int) {}
+
+		public static Boolean comprobarCandidato(clsCandidato candidato){}
+
+		public static List<clsCandidatos> candidatosValidos{idMision}
+
+----------------------------
+UI
+-------------------------
+	VM:
+		clsListadoMisionCandidatosVM : clsMision
+			private List<clsMision> misiones
+
+			private List<clsCandidatos> candidatos
+			
+			public clsListadoMisionCandidatosVM() {
+				misiones = clsListadoMisionBL.obtenerMisiones()
+			}
+
+			public clsListadoMisionesCandidatoVM(int id) : this() {
+				clsMision mision = clsListadoMisionBL.buscarMisionPorId(id)
+				candidatos = clsListadoBL.candidatosValidos(idMision)
+
+			}
+
+	Controller:
+		Index():
+			clsListadoMisionCandidatosVM ViewModel = new clsListadoMisionCandidatosVM()
+			return View(ViewModel)
+
+		[HttpPost]
+		Index(int id):
+			clsListadoMisionCandidatosVM ViewModel = new clsListadoMisionCandidatosVM(id)
+			return View(vm)
+
+		DetallesCandidatos(int id):
+			clsCandidatos candidato = clsListadoBL.buscarCandidatoPorId(id)
+			return View(candidato)
